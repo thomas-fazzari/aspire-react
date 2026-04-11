@@ -1,6 +1,6 @@
 using WeatherApp.Api.Features.Weather.GetCurrentWeather;
 
-namespace WeatherApp.IntegrationTests.Weather.GetCurrentWeather;
+namespace WeatherApp.UnitTests.Weather.GetCurrentWeather;
 
 public sealed class ValidatorTests
 {

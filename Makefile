@@ -16,6 +16,9 @@ setup:
 dev:
 	ASPIRE_ALLOW_UNSECURED_TRANSPORT=true dotnet run --project apps/backend/src/Aspire/WeatherApp.Host
 
+test:
+	dotnet test WeatherApp.slnx
+
 lint:
 	biome check .
 	cd apps/frontend && pnpm exec tsc -b
@@ -49,4 +52,3 @@ migrate:
 		--startup-project apps/backend/src/WeatherApp.Migrator \
 		--context AppDbContext \
 		--output-dir Infrastructure/Persistence/Migrations
-

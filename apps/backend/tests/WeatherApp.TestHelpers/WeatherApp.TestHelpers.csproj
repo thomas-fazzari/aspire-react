@@ -5,6 +5,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="WeatherApp.IntegrationTests" />
+    <InternalsVisibleTo Include="WeatherApp.UnitTests" />
   </ItemGroup>
 
   <ItemGroup>

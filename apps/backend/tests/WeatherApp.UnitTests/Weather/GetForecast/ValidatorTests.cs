@@ -1,6 +1,6 @@
 using WeatherApp.Api.Features.Weather.GetForecast;
 
-namespace WeatherApp.IntegrationTests.Weather.GetForecast;
+namespace WeatherApp.UnitTests.Weather.GetForecast;
 
 public sealed class ValidatorTests
 {

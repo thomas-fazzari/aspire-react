@@ -13,6 +13,7 @@ internal static class DependencyInjection
         services.AddScoped<GetCurrentWeatherHandler>();
         services.AddScoped<GetForecastHandler>();
         services.AddScoped<GetHourlyHandler>();
+        services.AddSingleton<WeatherMetrics>();
         services
             .AddOptions<OpenMeteoOptions>()
             .BindConfiguration(OpenMeteoOptions.SectionName)

@@ -1,6 +1,6 @@
 using WeatherApp.Api.Features.Weather.GetHourly;
 
-namespace WeatherApp.IntegrationTests.Weather.GetHourly;
+namespace WeatherApp.UnitTests.Weather.GetHourly;
 
 public sealed class ValidatorTests
 {
