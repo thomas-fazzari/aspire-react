@@ -1,6 +1,7 @@
 using System.Globalization;
 using Bogus;
 using WeatherApp.Api.Features.Weather.GetForecast;
+using WeatherApp.Api.Shared.Constants;
 
 namespace WeatherApp.TestHelpers.Fakers;
 
@@ -17,7 +18,7 @@ internal static class ForecastFaker
                     .Select(_ => new DailyForecastDto(
                         Date: DateOnly
                             .FromDateTime(new Faker().Date.Soon(7))
-                            .ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                            .ToString(Formats.Date, CultureInfo.InvariantCulture),
                         WeatherCode: new Faker().Random.Int(0, 99),
                         TemperatureMax: new Faker().Random.Double(10, 35),
                         TemperatureMin: new Faker().Random.Double(-5, 15),

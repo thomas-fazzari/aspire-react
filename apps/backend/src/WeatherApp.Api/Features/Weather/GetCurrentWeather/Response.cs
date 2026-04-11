@@ -1,5 +1,11 @@
 namespace WeatherApp.Api.Features.Weather.GetCurrentWeather;
 
+internal sealed record GetCurrentWeatherResponse(
+    double Lat,
+    double Lon,
+    WeatherConditionsDto Current
+);
+
 internal sealed record WeatherConditionsDto(
     double Lat,
     double Lon,
@@ -11,10 +17,4 @@ internal sealed record WeatherConditionsDto(
     double WindDirection,
     double SurfacePressure,
     bool IsDay
-);
-
-internal sealed record GetCurrentWeatherResponse(
-    double Lat,
-    double Lon,
-    WeatherConditionsDto Current
 );

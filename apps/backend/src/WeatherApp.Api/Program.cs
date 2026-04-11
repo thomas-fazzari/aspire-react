@@ -1,5 +1,6 @@
 using Scalar.AspNetCore;
 using WeatherApp.Api;
+using WeatherApp.Api.Shared.Constants;
 using WeatherApp.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,7 @@ builder.AddServiceDefaults();
 builder.Logging.AddSimpleConsole(options =>
 {
     options.IncludeScopes = true;
-    options.TimestampFormat = "HH:mm:ss ";
+    options.TimestampFormat = Formats.LogTimestamp;
 });
 
 builder.Services.AddOpenApi();

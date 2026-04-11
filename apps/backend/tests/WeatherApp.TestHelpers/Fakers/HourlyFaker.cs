@@ -1,6 +1,7 @@
 using System.Globalization;
 using Bogus;
 using WeatherApp.Api.Features.Weather.GetHourly;
+using WeatherApp.Api.Shared.Constants;
 
 namespace WeatherApp.TestHelpers.Fakers;
 
@@ -14,10 +15,10 @@ internal static class HourlyFaker
             [
                 .. Enumerable
                     .Range(0, 24)
-                    .Select(_ => new HourlyEntryDto(
+                    .Select(_ => new HourlyConditionsDto(
                         Time: new Faker()
                             .Date.Soon(1)
-                            .ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture),
+                            .ToString(Formats.DateTime, CultureInfo.InvariantCulture),
                         Temperature: new Faker().Random.Double(-5, 35),
                         WeatherCode: new Faker().Random.Int(0, 99),
                         PrecipitationProbability: new Faker().Random.Double(0, 100),

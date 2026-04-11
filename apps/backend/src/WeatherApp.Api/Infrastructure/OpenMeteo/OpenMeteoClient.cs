@@ -96,7 +96,7 @@ internal sealed class OpenMeteoClient(HttpClient httpClient) : IWeatherProvider
             [
                 .. Enumerable
                     .Range(0, hourly.Time.Length)
-                    .Select(i => new HourlyEntryDto(
+                    .Select(i => new HourlyConditionsDto(
                         hourly.Time[i],
                         hourly.Temperature[i],
                         hourly.WeatherCode[i],
