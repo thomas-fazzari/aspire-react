@@ -18,6 +18,7 @@ dev:
 
 lint:
 	biome check .
+	cd apps/frontend && pnpm exec tsc -b
 	dotnet tool run csharpier check .
 	dotnet tool run roslynator analyze $(PROJECTS)
 
