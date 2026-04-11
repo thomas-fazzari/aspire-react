@@ -10,6 +10,8 @@
 		"includes": [
 			"**",
 			"!!apps/backend",
+			"!!apps/frontend/dist",
+			"!!apps/frontend/dist",
 			"!!apps/frontend/src/components/ui",
 			"!!apps/frontend/src/client"
 		]

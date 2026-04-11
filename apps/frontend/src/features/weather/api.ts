@@ -1,5 +1,5 @@
 import useSWRImmutable from "swr/immutable";
-import { getWeather } from "@/client/sdk.gen";
+import { getCurrentWeather } from "@/client/sdk.gen";
 
 interface TypedCurrentConditions {
 	temperature: number;
@@ -17,7 +17,7 @@ async function fetchWeather(params: {
 	lat: number;
 	lon: number;
 }): Promise<TypedWeatherResponse> {
-	const { data, error } = await getWeather({
+	const { data, error } = await getCurrentWeather({
 		query: { Lat: params.lat, Lon: params.lon },
 	});
 	if (error || !data) throw error ?? new Error("No data");
