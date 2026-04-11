@@ -3,7 +3,7 @@ using Moq;
 using Testcontainers.PostgreSql;
 using Testcontainers.Redis;
 
-using WeatherApp.Api.Domain.Weather;
+using WeatherApp.Api.Features.Weather;
 using WeatherApp.TestHelpers.Mocks;
 
 using DatabaseMigrationRunner = Migrator::WeatherApp.Migrator.DatabaseMigrationRunner;

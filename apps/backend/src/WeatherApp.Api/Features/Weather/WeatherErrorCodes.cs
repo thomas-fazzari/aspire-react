@@ -1,4 +1,4 @@
-namespace WeatherApp.Api.Domain.Weather;
+namespace WeatherApp.Api.Features.Weather;
 
 internal static class WeatherErrorCodes
 {

@@ -10,6 +10,11 @@ internal sealed record OpenMeteoResponse(
 
 internal sealed record OpenMeteoCurrentConditions(
     [property: JsonPropertyName("temperature_2m")] double Temperature,
+    [property: JsonPropertyName("relative_humidity_2m")] double RelativeHumidity,
+    [property: JsonPropertyName("apparent_temperature")] double ApparentTemperature,
+    [property: JsonPropertyName("weather_code")] int WeatherCode,
     [property: JsonPropertyName("wind_speed_10m")] double WindSpeed,
-    [property: JsonPropertyName("weather_code")] int WeatherCode
+    [property: JsonPropertyName("wind_direction_10m")] double WindDirection,
+    [property: JsonPropertyName("surface_pressure")] double SurfacePressure,
+    [property: JsonPropertyName("is_day")] int IsDay
 );

@@ -1,14 +1,11 @@
 using Moq;
-using WeatherApp.Api.Domain.Weather;
+using WeatherApp.Api.Features.Weather;
 using WeatherApp.TestHelpers.Fakers;
 
 namespace WeatherApp.TestHelpers.Mocks;
 
 internal static class WeatherProviderMock
 {
-    /// <summary>
-    /// Creates a mock that returns generated weather data for any coordinate pair
-    /// </summary>
     internal static Mock<IWeatherProvider> Create()
     {
         var mock = new Mock<IWeatherProvider>();
@@ -20,7 +17,27 @@ internal static class WeatherProviderMock
                     It.IsAny<CancellationToken>()
                 )
             )
-            .ReturnsAsync(WeatherDataFaker.Generate());
+            .ReturnsAsync(WeatherConditionsFaker.Generate());
+
+        mock.Setup(provider =>
+                provider.GetForecastAsync(
+                    It.IsAny<double>(),
+                    It.IsAny<double>(),
+                    It.IsAny<int>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(ForecastFaker.Generate());
+
+        mock.Setup(provider =>
+                provider.GetHourlyAsync(
+                    It.IsAny<double>(),
+                    It.IsAny<double>(),
+                    It.IsAny<int>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(HourlyFaker.Generate());
 
         return mock;
     }

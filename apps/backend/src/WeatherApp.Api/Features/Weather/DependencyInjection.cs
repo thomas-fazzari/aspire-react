@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
-using WeatherApp.Api.Domain.Weather;
-using WeatherApp.Api.Features.Weather.GetWeather;
+using WeatherApp.Api.Features.Weather.GetCurrentWeather;
+using WeatherApp.Api.Features.Weather.GetForecast;
+using WeatherApp.Api.Features.Weather.GetHourly;
 using WeatherApp.Api.Infrastructure.OpenMeteo;
 
 namespace WeatherApp.Api.Features.Weather;
@@ -9,7 +10,9 @@ internal static class DependencyInjection
 {
     public static IServiceCollection AddWeatherFeature(this IServiceCollection services)
     {
-        services.AddScoped<GetWeatherHandler>();
+        services.AddScoped<GetCurrentWeatherHandler>();
+        services.AddScoped<GetForecastHandler>();
+        services.AddScoped<GetHourlyHandler>();
         services
             .AddOptions<OpenMeteoOptions>()
             .BindConfiguration(OpenMeteoOptions.SectionName)
@@ -30,7 +33,9 @@ internal static class DependencyInjection
 
     public static IEndpointRouteBuilder MapWeatherFeature(this IEndpointRouteBuilder app)
     {
-        app.MapWeatherEndpoints();
+        app.MapGetCurrentWeatherEndpoints();
+        app.MapGetForecastEndpoints();
+        app.MapGetHourlyEndpoints();
 
         return app;
     }

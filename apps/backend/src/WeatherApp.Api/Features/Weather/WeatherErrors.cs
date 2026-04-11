@@ -1,6 +1,6 @@
 using WeatherApp.Api.Shared.Http;
 
-namespace WeatherApp.Api.Domain.Weather;
+namespace WeatherApp.Api.Features.Weather;
 
 internal static class WeatherErrors
 {

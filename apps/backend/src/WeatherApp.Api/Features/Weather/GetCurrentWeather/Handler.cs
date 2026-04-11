@@ -1,14 +1,14 @@
-using WeatherApp.Api.Domain.Weather;
+using WeatherApp.Api.Features.Weather;
 
-namespace WeatherApp.Api.Features.Weather.GetWeather;
+namespace WeatherApp.Api.Features.Weather.GetCurrentWeather;
 
-internal sealed partial class GetWeatherHandler(
+internal sealed partial class GetCurrentWeatherHandler(
     IWeatherProvider weatherProvider,
-    ILogger<GetWeatherHandler> logger
+    ILogger<GetCurrentWeatherHandler> logger
 )
 {
-    public async Task<Result<WeatherResponse>> HandleAsync(
-        GetWeatherRequest request,
+    public async Task<Result<GetCurrentWeatherResponse>> HandleAsync(
+        GetCurrentWeatherRequest request,
         CancellationToken ct
     )
     {
@@ -17,20 +17,14 @@ internal sealed partial class GetWeatherHandler(
         if (weather is null)
         {
             LogWeatherFetchFailed(logger, request.Lat, request.Lon);
-            return Result.Fail<WeatherResponse>(
+            return Result.Fail<GetCurrentWeatherResponse>(
                 WeatherErrors.FetchFailed("Open-Meteo returned no data")
             );
         }
 
         LogFetchedWeather(logger, request.Lat, request.Lon);
 
-        return Result.Ok(
-            new WeatherResponse(
-                weather.Latitude,
-                weather.Longitude,
-                new CurrentConditions(weather.Temperature, weather.WindSpeed, weather.WeatherCode)
-            )
-        );
+        return Result.Ok(new GetCurrentWeatherResponse(weather.Lat, weather.Lon, weather));
     }
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Fetched weather for {Lat},{Lon}")]
