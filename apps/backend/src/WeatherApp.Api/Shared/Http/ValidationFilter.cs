@@ -8,26 +8,26 @@ namespace WeatherApp.Api.Shared.Http;
 internal sealed class ValidationFilter<T> : IEndpointFilter
 {
     public async ValueTask<object?> InvokeAsync(
-        EndpointFilterInvocationContext ctx,
+        EndpointFilterInvocationContext context,
         EndpointFilterDelegate next
     )
     {
-        var arg = ctx.Arguments.OfType<T>().FirstOrDefault();
+        var arg = context.Arguments.OfType<T>().FirstOrDefault();
 
         if (arg is null)
-            return await next(ctx);
+            return await next(context);
 
         var validator =
-            ctx.HttpContext.RequestServices.GetService<IValidator<T>>()
+            context.HttpContext.RequestServices.GetService<IValidator<T>>()
             ?? throw new InvalidOperationException(
                 $"Validation filter for '{typeof(T).Name}' requires a registered IValidator<{typeof(T).Name}>."
             );
 
-        var result = await validator.ValidateAsync(arg, ctx.HttpContext.RequestAborted);
+        var result = await validator.ValidateAsync(arg, context.HttpContext.RequestAborted);
         if (!result.IsValid)
             return TypedResults.ValidationProblem(result.ToDictionary());
 
-        return await next(ctx);
+        return await next(context);
     }
 }
 

@@ -24,8 +24,8 @@ app.Map(
     "/error",
     () =>
         Results.Problem(
-            title: "An unexpected error occurred.",
-            statusCode: StatusCodes.Status500InternalServerError
+            statusCode: StatusCodes.Status500InternalServerError,
+            title: "An unexpected error occurred."
         )
 );
 
