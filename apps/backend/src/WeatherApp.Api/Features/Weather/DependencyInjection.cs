@@ -18,15 +18,13 @@ internal static class DependencyInjection
             .BindConfiguration(OpenMeteoOptions.SectionName)
             .ValidateDataAnnotations()
             .ValidateOnStart();
-        services
-            .AddHttpClient<IWeatherProvider, OpenMeteoClient>(
-                (sp, c) =>
-                {
-                    var options = sp.GetRequiredService<IOptions<OpenMeteoOptions>>().Value;
-                    c.BaseAddress = new Uri(options.BaseUrl);
-                }
-            )
-            .AddStandardResilienceHandler();
+        services.AddHttpClient<IWeatherProvider, OpenMeteoClient>(
+            (sp, c) =>
+            {
+                var options = sp.GetRequiredService<IOptions<OpenMeteoOptions>>().Value;
+                c.BaseAddress = new Uri(options.BaseUrl);
+            }
+        );
 
         return services;
     }
