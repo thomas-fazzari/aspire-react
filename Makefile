@@ -14,7 +14,13 @@ setup:
 		--project apps/backend/src/Aspire/WeatherApp.Host
 
 dev:
-	ASPIRE_ALLOW_UNSECURED_TRANSPORT=true dotnet run --project apps/backend/src/Aspire/WeatherApp.Host
+	@ASPIRE_ALLOW_UNSECURED_TRANSPORT=true dotnet run --project apps/backend/src/Aspire/WeatherApp.Host & \
+	ASPIRE_PID=$$!; \
+	trap "kill $$ASPIRE_PID 2>/dev/null" INT TERM; \
+	echo "Waiting for API to be ready..."; \
+	until curl -sf http://localhost:5092/openapi/v1.json > /dev/null 2>&1; do sleep 2; done; \
+	cd apps/frontend && pnpm run generate; \
+	wait $$ASPIRE_PID
 
 test:
 	dotnet test WeatherApp.slnx
@@ -28,23 +34,6 @@ lint:
 fix:
 	biome check --write .
 	dotnet tool run csharpier format .
-
-generate:
-	@ASPIRE_STARTED=false; \
-	if ! curl -sf http://localhost:5092/openapi/v1.json > /dev/null 2>&1; then \
-		echo "Backend not running, starting Aspire..."; \
-		ASPIRE_ALLOW_UNSECURED_TRANSPORT=true dotnet run --project apps/backend/src/Aspire/WeatherApp.Host > /tmp/aspire-generate.log 2>&1 & \
-		ASPIRE_PID=$$!; \
-		ASPIRE_STARTED=true; \
-		echo "Waiting for API to be ready..."; \
-		until curl -sf http://localhost:5092/openapi/v1.json > /dev/null 2>&1; do sleep 2; done; \
-		echo "API ready."; \
-	fi; \
-	cd apps/frontend && pnpm run generate; \
-	if [ "$$ASPIRE_STARTED" = "true" ]; then \
-		echo "Stopping Aspire..."; \
-		kill $$ASPIRE_PID 2>/dev/null || true; \
-	fi
 
 migrate:
 	dotnet ef migrations add $(name) \
