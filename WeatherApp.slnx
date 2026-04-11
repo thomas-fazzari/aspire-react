@@ -1,0 +1,14 @@
+<Solution>
+  <Project Path="apps/backend/src/WeatherApp.Api/WeatherApp.Api.csproj" />
+  <Project Path="apps/backend/src/WeatherApp.Migrator/WeatherApp.Migrator.csproj" />
+
+  <Folder Name="/Aspire/">
+    <Project Path="apps/backend/src/Aspire/WeatherApp.Host/WeatherApp.Host.csproj" />
+    <Project Path="apps/backend/src/Aspire/WeatherApp.ServiceDefaults/WeatherApp.ServiceDefaults.csproj" />
+  </Folder>
+
+  <Folder Name="/Tests/">
+    <Project Path="apps/backend/tests/WeatherApp.TestHelpers/WeatherApp.TestHelpers.csproj" />
+    <Project Path="apps/backend/tests/WeatherApp.IntegrationTests/WeatherApp.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

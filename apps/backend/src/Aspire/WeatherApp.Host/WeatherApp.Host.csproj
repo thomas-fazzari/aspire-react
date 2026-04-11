@@ -1,0 +1,17 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.2.1">
+  <ItemGroup>
+    <ProjectReference Include="..\..\WeatherApp.Api\WeatherApp.Api.csproj" />
+    <ProjectReference Include="..\..\WeatherApp.Migrator\WeatherApp.Migrator.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.JavaScript" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="Aspire.Hosting.Redis" />
+    <PackageReference Include="Aspire.Hosting.Yarp" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>5f3ac77b-b45e-4462-8b63-a96bac118830</UserSecretsId>
+  </PropertyGroup>
+</Project>

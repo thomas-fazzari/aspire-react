@@ -1,0 +1,58 @@
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# =========================
+# IDEs & Editors
+# =========================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# =========================
+# .NET / C# / Aspire
+# =========================
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Tt]est[Rr]esults/
+*.userprefs
+appsettings.local.json
+appsettings.Development.json
+secrets.json
+.aspire/
+
+# =========================
+# Node.js / React / Vite
+# =========================
+node_modules/
+dist/
+dist-ssr/
+build/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+apps/frontend/src/client/
+
+# =========================
+# Environment
+# =========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.husky/_
