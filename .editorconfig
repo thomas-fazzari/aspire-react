@@ -120,6 +120,13 @@ dotnet_diagnostic.RCS1225.severity = suggestion # Make class sealed
 dotnet_diagnostic.RCS1229.severity = suggestion # Use async/await when necessary
 dotnet_diagnostic.RCS1235.severity = suggestion # Optimize method call
 
+# Meziantou
+dotnet_diagnostic.MA0009.severity = warning # Regex evaluation timeout
+dotnet_diagnostic.MA0032.severity = warning # Use overload with a CancellationToken arg
+dotnet_diagnostic.MA0040.severity = warning # Forward CancellationToken param to methods that take one
+dotnet_diagnostic.MA0079.severity = warning # Forward the CancellationToken using WithCancellation()
+dotnet_diagnostic.MA0110.severity = warning # Use Regex source generator
+
 # .NET analyzers
 dotnet_diagnostic.CA1305.severity = warning   # Specify IFormatProvider
 dotnet_diagnostic.CA1310.severity = warning   # Specify StringComparison for correctness

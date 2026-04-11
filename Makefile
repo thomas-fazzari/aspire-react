@@ -4,11 +4,6 @@ MIGRATOR       = apps/backend/src/WeatherApp.Migrator
 FRONTEND       = apps/frontend
 API_URL        = http://localhost:5092/openapi/v1.json
 
-PROJECTS = \
-	$(API)/WeatherApp.Api.csproj \
-	$(MIGRATOR)/WeatherApp.Migrator.csproj \
-	apps/backend/src/Aspire/WeatherApp.ServiceDefaults/WeatherApp.ServiceDefaults.csproj
-
 .PHONY: install
 install:
 	pnpm install
@@ -39,7 +34,7 @@ lint:
 	biome check .
 	cd $(FRONTEND) && pnpm exec tsc -b
 	dotnet tool run csharpier check .
-	dotnet tool run roslynator analyze $(PROJECTS)
+	dotnet build WeatherApp.slnx --no-restore
 
 .PHONY: fix
 fix:

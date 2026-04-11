@@ -42,7 +42,9 @@ public sealed class ApiFixture : IAsyncLifetime
 
     public async ValueTask InitializeAsync()
     {
-        await Task.WhenAll(_postgres.StartAsync(), _redis.StartAsync());
+        var ct = TestContext.Current.CancellationToken;
+
+        await Task.WhenAll(_postgres.StartAsync(ct), _redis.StartAsync(ct));
 
         _weatherProviderMock = WeatherProviderMockFactory.Create();
 
@@ -52,7 +54,7 @@ public sealed class ApiFixture : IAsyncLifetime
             services => services.AddMock(WeatherProviderMock)
         );
 
-        await DatabaseMigrationRunner.InitializeAsync(Factory.Services, CancellationToken.None);
+        await DatabaseMigrationRunner.InitializeAsync(Factory.Services, ct);
     }
 
     public async ValueTask DisposeAsync()
