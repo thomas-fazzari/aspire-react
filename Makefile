@@ -15,6 +15,10 @@ install:
 setup:
 	dotnet user-secrets set "Parameters:postgres-password" "DevPassword123!" --project $(ASPIRE_HOST)
 
+.PHONY: generate
+generate:
+	cd $(FRONTEND) && pnpm run generate
+
 .PHONY: dev
 dev:
 	@ASPIRE_ALLOW_UNSECURED_TRANSPORT=true dotnet run --project $(ASPIRE_HOST) & \
@@ -22,7 +26,7 @@ dev:
 	trap "kill $$ASPIRE_PID 2>/dev/null" INT TERM; \
 	echo "Waiting for API to be ready..."; \
 	until curl -sf $(API_URL) > /dev/null 2>&1; do sleep 2; done; \
-	cd $(FRONTEND) && pnpm run generate; \
+	$(MAKE) generate; \
 	wait $$ASPIRE_PID
 
 .PHONY: test

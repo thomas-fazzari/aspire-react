@@ -1,4 +1,6 @@
 using Aspire.Hosting.Yarp.Transforms;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -45,4 +47,16 @@ builder
         yarp.AddRoute(frontend);
     });
 
-builder.Build().Run();
+var clientDir = Path.Combine(frontendPath, "src/client");
+
+var app = builder.Build();
+
+if (!Directory.Exists(clientDir))
+{
+    app.Services.GetRequiredService<ILogger<Program>>()
+        .LogWarning(
+            "Frontend client types missing: run 'make generate' while the API is up to generate them."
+        );
+}
+
+app.Run();

@@ -1,0 +1,22 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Aspire Host",
+			"type": "coreclr",
+			"request": "launch",
+			"program": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"${workspaceFolder}/apps/backend/src/Aspire/WeatherApp.Host/WeatherApp.Host.csproj"
+			],
+			"cwd": "${workspaceFolder}",
+			"env": {
+				"ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+			},
+			"console": "integratedTerminal",
+			"stopAtEntry": false
+		}
+	]
+}
