@@ -27,7 +27,15 @@ public sealed class AppHostFixture : IAsyncLifetime
 
         using var startupCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
         startupCts.CancelAfter(TimeSpan.FromMinutes(5));
-        await _app.StartAsync(startupCts.Token);
+        try
+        {
+            await _app.StartAsync(startupCts.Token);
+        }
+        catch
+        {
+            await DisposeAsync();
+            throw;
+        }
     }
 
     public async ValueTask DisposeAsync()
@@ -35,6 +43,7 @@ public sealed class AppHostFixture : IAsyncLifetime
         if (_app is not null)
         {
             await _app.DisposeAsync();
+            _app = null;
         }
     }
 }
