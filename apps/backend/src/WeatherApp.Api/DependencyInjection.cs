@@ -7,9 +7,6 @@ using WeatherApp.Api.Infrastructure.Persistence;
 
 namespace WeatherApp.Api;
 
-/// <summary>
-/// Composition root for all features services and API endpoints mappings.
-/// </summary>
 internal static class DependencyInjection
 {
     internal static IServiceCollection AddWeatherAppApi(

@@ -1,5 +1,6 @@
 using Scalar.AspNetCore;
 using WeatherApp.Api;
+using WeatherApp.Api.Infrastructure.Persistence;
 using WeatherApp.Api.Shared.Constants;
 using WeatherApp.ServiceDefaults;
 
@@ -16,6 +17,7 @@ builder.Logging.AddSimpleConsole(options =>
 builder.Services.AddOpenApi();
 builder.AddRedisOutputCache("redis");
 builder.Services.AddWeatherAppApi(builder.Configuration);
+builder.Services.AddHealthChecks().AddDbContextCheck<AppDbContext>(tags: ["ready"]);
 
 var app = builder.Build();
 

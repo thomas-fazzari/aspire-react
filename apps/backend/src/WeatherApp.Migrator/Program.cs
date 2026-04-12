@@ -5,7 +5,7 @@ using WeatherApp.ServiceDefaults;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.AddServiceDefaults();
+builder.ConfigureOpenTelemetry();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("weatherdb"))
