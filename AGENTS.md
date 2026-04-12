@@ -9,7 +9,7 @@
 - `apps/backend/tests/` -> mirrors backend structure, `TestHelpers` has common Fakers and Mocks
 - `apps/frontend/src/` -> feature-driven React app; `client/` is **generated** by openapi-ts (**NEVER** edit)
 
-**Useful Commands:** `make dev` | `make test` | `make lint` | `make fix` | `make generate`
+**Useful Commands:** `make dev` | `make test` - `make test-unit` - `make test-integration` | `make lint` | `make fix` | `make generate`
 
 **Enforcement:** csharpier (C#), biome (JS/TS), TreatWarningsAsErrors, Meziantou+Roslynator analyzers, slopwatch, husky pre-commit (runs `make lint`)
 

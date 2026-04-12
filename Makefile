@@ -33,6 +33,18 @@ dev:
 test:
 	dotnet test WeatherApp.slnx
 
+.PHONY: test-unit
+test-unit:
+	dotnet test apps/backend/tests/WeatherApp.UnitTests
+
+.PHONY: test-integration
+test-integration:
+	dotnet test apps/backend/tests/WeatherApp.IntegrationTests
+
+.PHONY: test-aspire
+test-aspire:
+	dotnet test apps/backend/tests/WeatherApp.AspireTests
+
 .PHONY: lint
 lint:
 	biome check .

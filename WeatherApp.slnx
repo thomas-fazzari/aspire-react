@@ -9,6 +9,7 @@
 
   <Folder Name="/Tests/">
     <Project Path="apps/backend/tests/WeatherApp.TestHelpers/WeatherApp.TestHelpers.csproj" />
+    <Project Path="apps/backend/tests/WeatherApp.AspireTests/WeatherApp.AspireTests.csproj" />
     <Project Path="apps/backend/tests/WeatherApp.IntegrationTests/WeatherApp.IntegrationTests.csproj" />
     <Project Path="apps/backend/tests/WeatherApp.UnitTests/WeatherApp.UnitTests.csproj" />
   </Folder>
