@@ -38,6 +38,7 @@ lint:
 	biome check .
 	cd $(FRONTEND) && pnpm exec tsc -b
 	dotnet tool run csharpier check .
+	dotnet tool run slopwatch analyze --fail-on warning
 	dotnet build WeatherApp.slnx --no-restore
 
 .PHONY: fix

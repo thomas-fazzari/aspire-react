@@ -1,3 +1,6 @@
+# =========================
+# OS / System
+# =========================
 .DS_Store
 .DS_Store?
 ._*
@@ -5,6 +8,9 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.swp
+*.swo
+*~
 
 # =========================
 # IDEs & Editors
@@ -41,6 +47,7 @@ dist/
 dist-ssr/
 build/
 .vite/
+coverage/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -55,4 +62,9 @@ apps/frontend/src/client/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# =========================
+# Tooling
+# =========================
 .husky/_
+.slopwatch/config.json.example
