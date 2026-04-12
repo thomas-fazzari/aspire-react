@@ -11,6 +11,7 @@ internal sealed class AppMetrics
     {
         internal const string Requests = "weatherapp.requests";
         internal const string OpenMeteoCalls = "weatherapp.openmeteo.calls";
+        internal const string OpenMeteoCallDuration = "weatherapp.openmeteo.call.duration";
         internal const string CacheHits = "weatherapp.cache.hits";
         internal const string CacheMisses = "weatherapp.cache.misses";
         internal const string UserRegistrations = "weatherapp.users.registrations";
@@ -32,6 +33,7 @@ internal sealed class AppMetrics
 
     private readonly Counter<long> _requests;
     private readonly Counter<long> _openMeteoCalls;
+    private readonly Histogram<double> _openMeteoCallDuration;
     private readonly Counter<long> _cacheHits;
     private readonly Counter<long> _cacheMisses;
     private readonly Counter<long> _userRegistrations;
@@ -48,6 +50,11 @@ internal sealed class AppMetrics
             InstrumentNames.OpenMeteoCalls,
             unit: "calls",
             description: "Open-Meteo API calls"
+        );
+        _openMeteoCallDuration = meter.CreateHistogram<double>(
+            InstrumentNames.OpenMeteoCallDuration,
+            unit: "ms",
+            description: "Duration of Open-Meteo API calls"
         );
         _cacheHits = meter.CreateCounter<long>(
             InstrumentNames.CacheHits,
@@ -69,8 +76,23 @@ internal sealed class AppMetrics
     public void Request(string endpoint) =>
         _requests.Add(1, new TagList { { TagKeys.Endpoint, endpoint } });
 
-    public void OpenMeteoCall(bool success) =>
-        _openMeteoCalls.Add(1, new TagList { { TagKeys.Success, success } });
+    public void OpenMeteoCallSucceeded(TimeSpan duration)
+    {
+        _openMeteoCalls.Add(1, new TagList { { TagKeys.Success, true } });
+        _openMeteoCallDuration.Record(
+            duration.TotalMilliseconds,
+            new TagList { { TagKeys.Success, true } }
+        );
+    }
+
+    public void OpenMeteoCallFailed(TimeSpan duration)
+    {
+        _openMeteoCalls.Add(1, new TagList { { TagKeys.Success, false } });
+        _openMeteoCallDuration.Record(
+            duration.TotalMilliseconds,
+            new TagList { { TagKeys.Success, false } }
+        );
+    }
 
     public void CacheHit() => _cacheHits.Add(1);
 

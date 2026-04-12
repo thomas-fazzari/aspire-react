@@ -21,20 +21,53 @@ public sealed class AppMetricsTests
     }
 
     [Fact]
-    public void OpenMeteoCall_IncrementsCallsCounter()
+    public void OpenMeteoCallSucceeded_IncrementsCounterAndRecordsDuration()
     {
         using var meter = new Meter(AppMetrics.MeterName);
-        using var collector = new MetricCollector<long>(
+        using var counterCollector = new MetricCollector<long>(
             meter,
             AppMetrics.InstrumentNames.OpenMeteoCalls
         );
+        using var durationCollector = new MetricCollector<double>(
+            meter,
+            AppMetrics.InstrumentNames.OpenMeteoCallDuration
+        );
 
         var metrics = new AppMetrics(new MeterFactoryFromMeter(meter));
-        metrics.OpenMeteoCall(true);
-        metrics.OpenMeteoCall(false);
+        metrics.OpenMeteoCallSucceeded(TimeSpan.FromMilliseconds(150));
 
-        var measurements = collector.GetMeasurementSnapshot();
-        Assert.Equal(2, measurements.Count);
+        var counterMeasurements = counterCollector.GetMeasurementSnapshot();
+        Assert.Single(counterMeasurements);
+        Assert.Equal(1, counterMeasurements[0].Value);
+
+        var durationMeasurements = durationCollector.GetMeasurementSnapshot();
+        Assert.Single(durationMeasurements);
+        Assert.Equal(150, durationMeasurements[0].Value);
+    }
+
+    [Fact]
+    public void OpenMeteoCallFailed_IncrementsCounterAndRecordsDuration()
+    {
+        using var meter = new Meter(AppMetrics.MeterName);
+        using var counterCollector = new MetricCollector<long>(
+            meter,
+            AppMetrics.InstrumentNames.OpenMeteoCalls
+        );
+        using var durationCollector = new MetricCollector<double>(
+            meter,
+            AppMetrics.InstrumentNames.OpenMeteoCallDuration
+        );
+
+        var metrics = new AppMetrics(new MeterFactoryFromMeter(meter));
+        metrics.OpenMeteoCallFailed(TimeSpan.FromMilliseconds(200));
+
+        var counterMeasurements = counterCollector.GetMeasurementSnapshot();
+        Assert.Single(counterMeasurements);
+        Assert.Equal(1, counterMeasurements[0].Value);
+
+        var durationMeasurements = durationCollector.GetMeasurementSnapshot();
+        Assert.Single(durationMeasurements);
+        Assert.Equal(200, durationMeasurements[0].Value);
     }
 
     [Fact]

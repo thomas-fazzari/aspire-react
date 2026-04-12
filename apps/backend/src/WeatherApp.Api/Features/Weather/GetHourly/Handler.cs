@@ -16,25 +16,25 @@ internal sealed partial class GetHourlyHandler(
     {
         appMetrics.Request(AppMetrics.Endpoints.WeatherHourly);
 
-        var stopwatch = Stopwatch.StartNew();
+        var startTime = Stopwatch.GetTimestamp();
         var hourly = await weatherProvider.GetHourlyAsync(
             request.Lat,
             request.Lon,
             request.Hours,
             ct
         );
-        stopwatch.Stop();
+        var duration = Stopwatch.GetElapsedTime(startTime);
 
         if (hourly is null)
         {
-            appMetrics.OpenMeteoCall(false);
+            appMetrics.OpenMeteoCallFailed(duration);
             LogHourlyFetchFailed(logger, request.Lat, request.Lon);
             return Result.Fail<HourlyResponse>(
                 WeatherErrors.FetchFailed("Open-Meteo returned no hourly data")
             );
         }
 
-        appMetrics.OpenMeteoCall(true);
+        appMetrics.OpenMeteoCallSucceeded(duration);
         LogFetchedHourly(logger, request.Lat, request.Lon, request.Hours);
 
         return Result.Ok(hourly);

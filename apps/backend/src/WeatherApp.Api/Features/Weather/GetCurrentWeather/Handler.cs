@@ -16,20 +16,20 @@ internal sealed partial class GetCurrentWeatherHandler(
     {
         appMetrics.Request(AppMetrics.Endpoints.WeatherCurrent);
 
-        var stopwatch = Stopwatch.StartNew();
+        var startTime = Stopwatch.GetTimestamp();
         var weather = await weatherProvider.GetCurrentAsync(request.Lat, request.Lon, ct);
-        stopwatch.Stop();
+        var duration = Stopwatch.GetElapsedTime(startTime);
 
         if (weather is null)
         {
-            appMetrics.OpenMeteoCall(false);
+            appMetrics.OpenMeteoCallFailed(duration);
             LogWeatherFetchFailed(logger, request.Lat, request.Lon);
             return Result.Fail<GetCurrentWeatherResponse>(
                 WeatherErrors.FetchFailed("Open-Meteo returned no data")
             );
         }
 
-        appMetrics.OpenMeteoCall(true);
+        appMetrics.OpenMeteoCallSucceeded(duration);
         LogFetchedWeather(logger, request.Lat, request.Lon);
 
         return Result.Ok(new GetCurrentWeatherResponse(weather.Lat, weather.Lon, weather));

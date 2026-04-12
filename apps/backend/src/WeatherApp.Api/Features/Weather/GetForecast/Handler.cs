@@ -16,25 +16,25 @@ internal sealed partial class GetForecastHandler(
     {
         appMetrics.Request(AppMetrics.Endpoints.WeatherForecast);
 
-        var stopwatch = Stopwatch.StartNew();
+        var startTime = Stopwatch.GetTimestamp();
         var forecast = await weatherProvider.GetForecastAsync(
             request.Lat,
             request.Lon,
             request.Days,
             ct
         );
-        stopwatch.Stop();
+        var duration = Stopwatch.GetElapsedTime(startTime);
 
         if (forecast is null)
         {
-            appMetrics.OpenMeteoCall(false);
+            appMetrics.OpenMeteoCallFailed(duration);
             LogForecastFetchFailed(logger, request.Lat, request.Lon);
             return Result.Fail<ForecastResponse>(
                 WeatherErrors.FetchFailed("Open-Meteo returned no forecast data")
             );
         }
 
-        appMetrics.OpenMeteoCall(true);
+        appMetrics.OpenMeteoCallSucceeded(duration);
         LogFetchedForecast(logger, request.Lat, request.Lon, request.Days);
 
         return Result.Ok(forecast);
