@@ -1,10 +1,11 @@
 using System.Diagnostics;
+using WeatherApp.Api.Infrastructure.Metrics;
 
 namespace WeatherApp.Api.Features.Weather.GetHourly;
 
 internal sealed partial class GetHourlyHandler(
     IWeatherProvider weatherProvider,
-    WeatherMetrics metrics,
+    AppMetrics appMetrics,
     ILogger<GetHourlyHandler> logger
 )
 {
@@ -13,7 +14,7 @@ internal sealed partial class GetHourlyHandler(
         CancellationToken ct
     )
     {
-        metrics.RequestCalled(WeatherMetrics.Endpoints.Hourly);
+        appMetrics.Request(AppMetrics.Endpoints.WeatherHourly);
 
         var stopwatch = Stopwatch.StartNew();
         var hourly = await weatherProvider.GetHourlyAsync(
@@ -26,20 +27,14 @@ internal sealed partial class GetHourlyHandler(
 
         if (hourly is null)
         {
+            appMetrics.OpenMeteoCall(false);
             LogHourlyFetchFailed(logger, request.Lat, request.Lon);
-            metrics.ProviderCallFailed(
-                WeatherMetrics.Endpoints.Hourly,
-                stopwatch.Elapsed.TotalMilliseconds
-            );
             return Result.Fail<HourlyResponse>(
                 WeatherErrors.FetchFailed("Open-Meteo returned no hourly data")
             );
         }
 
-        metrics.ProviderCallSucceeded(
-            WeatherMetrics.Endpoints.Hourly,
-            stopwatch.Elapsed.TotalMilliseconds
-        );
+        appMetrics.OpenMeteoCall(true);
         LogFetchedHourly(logger, request.Lat, request.Lon, request.Hours);
 
         return Result.Ok(hourly);

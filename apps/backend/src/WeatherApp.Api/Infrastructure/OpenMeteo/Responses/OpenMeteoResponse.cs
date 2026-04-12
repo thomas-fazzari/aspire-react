@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace WeatherApp.Api.Infrastructure.OpenMeteo;
+namespace WeatherApp.Api.Infrastructure.OpenMeteo.Responses;
 
 internal sealed record OpenMeteoResponse(
     [property: JsonPropertyName("latitude")] double Latitude,

@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using WeatherApp.Api.Features.Cities;
 using WeatherApp.Api.Features.Weather;
+using WeatherApp.Api.Infrastructure.Metrics;
 using WeatherApp.Api.Infrastructure.Persistence;
 
 namespace WeatherApp.Api;
@@ -26,6 +27,7 @@ internal static class DependencyInjection
         );
         services.AddCitiesFeature();
         services.AddWeatherFeature();
+        services.AddSingleton<AppMetrics>();
 
         return services;
     }

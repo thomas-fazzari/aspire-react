@@ -2,6 +2,7 @@ using WeatherApp.Api.Features.Weather;
 using WeatherApp.Api.Features.Weather.GetCurrentWeather;
 using WeatherApp.Api.Features.Weather.GetForecast;
 using WeatherApp.Api.Features.Weather.GetHourly;
+using WeatherApp.Api.Infrastructure.OpenMeteo.Responses;
 
 namespace WeatherApp.Api.Infrastructure.OpenMeteo;
 

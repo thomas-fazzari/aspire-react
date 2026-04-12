@@ -1,10 +1,11 @@
 using System.Diagnostics;
+using WeatherApp.Api.Infrastructure.Metrics;
 
 namespace WeatherApp.Api.Features.Weather.GetCurrentWeather;
 
 internal sealed partial class GetCurrentWeatherHandler(
     IWeatherProvider weatherProvider,
-    WeatherMetrics metrics,
+    AppMetrics appMetrics,
     ILogger<GetCurrentWeatherHandler> logger
 )
 {
@@ -13,7 +14,7 @@ internal sealed partial class GetCurrentWeatherHandler(
         CancellationToken ct
     )
     {
-        metrics.RequestCalled(WeatherMetrics.Endpoints.Current);
+        appMetrics.Request(AppMetrics.Endpoints.WeatherCurrent);
 
         var stopwatch = Stopwatch.StartNew();
         var weather = await weatherProvider.GetCurrentAsync(request.Lat, request.Lon, ct);
@@ -21,20 +22,14 @@ internal sealed partial class GetCurrentWeatherHandler(
 
         if (weather is null)
         {
+            appMetrics.OpenMeteoCall(false);
             LogWeatherFetchFailed(logger, request.Lat, request.Lon);
-            metrics.ProviderCallFailed(
-                WeatherMetrics.Endpoints.Current,
-                stopwatch.Elapsed.TotalMilliseconds
-            );
             return Result.Fail<GetCurrentWeatherResponse>(
                 WeatherErrors.FetchFailed("Open-Meteo returned no data")
             );
         }
 
-        metrics.ProviderCallSucceeded(
-            WeatherMetrics.Endpoints.Current,
-            stopwatch.Elapsed.TotalMilliseconds
-        );
+        appMetrics.OpenMeteoCall(true);
         LogFetchedWeather(logger, request.Lat, request.Lon);
 
         return Result.Ok(new GetCurrentWeatherResponse(weather.Lat, weather.Lon, weather));

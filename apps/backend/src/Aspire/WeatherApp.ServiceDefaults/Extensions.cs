@@ -62,7 +62,7 @@ public static class Extensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
-                    .AddMeter("WeatherApp.Api");
+                    .AddMeter("WeatherApp");
             })
             .WithTracing(tracing =>
             {
